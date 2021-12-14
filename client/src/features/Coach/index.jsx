@@ -9,7 +9,7 @@ import CreateRoute from './pages/CreateRoute';
 function Coach(props) {
    const match = useRouteMatch();
    const currentUserId = useSelector(state => state.user.current.id);
-   const [userData, setUserData] = useState({});
+   const [userData, setUserData] = useState({role: "coachOwner"});
 
    useEffect(() => {
       if (!currentUserId) return
@@ -17,7 +17,6 @@ function Coach(props) {
          try {
             const getUserDetailData = await userApi.getUserData({ currentUserId });
             setUserData(getUserDetailData);
-
          } catch (error) {
             console.log(error)
          }
@@ -29,13 +28,16 @@ function Coach(props) {
       <Switch>
          <Route exact path={match.url} component={CoachPage} />
          {userData.role === "coachOwner"
-            && (
+            ? (
                <>
                   <Route path={`${match.url}/create/route/:coachId`} component={CreateRoute} />
                   <Route path={`${match.url}/create/coach`} component={CreateCoach} />
                </>
+            ) : (
+               <>
+                  <Redirect to="/404" />
+               </>
             )}
-         <Redirect to="/404" />
       </Switch>
    );
 }

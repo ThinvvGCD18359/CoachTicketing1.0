@@ -15,6 +15,7 @@ import DoneIcon from "@material-ui/icons/DoneAllTwoTone";
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 import RevertIcon from "@material-ui/icons/NotInterestedOutlined";
+import moment from "moment";
 import React, { useState } from "react";
 import coachApi from "../../../../api/coachApi";
 
@@ -131,7 +132,7 @@ export default function Coach(props) {
                                                 <TableCell align="right">{row.phonenumber}</TableCell>
                                                 <TableCell align="right">{row.Route?.starting}</TableCell>
                                                 <TableCell align="right">{row.Route?.destination}</TableCell>
-                                                <TableCell align="right">{row.Route?.departure}</TableCell>
+                                                <TableCell align="right">{moment(row.Route?.departure).format('MM-DD-YYYY, HH:mm')}</TableCell>
                                                 <TableCell align="right">{row.Route?.price}</TableCell>
                                             </>
                                         )}

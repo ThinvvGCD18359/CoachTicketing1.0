@@ -2,18 +2,18 @@ import { unwrapResult } from "@reduxjs/toolkit";
 import firebase from 'firebase/app';
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from 'react-redux';
-import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
+import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom';
+import userApi from "./api/userApi";
 import './App.css';
+import Admin from "./features/Admin";
 import Login from "./features/Auth/index";
 import { getUser } from "./features/Auth/userSlice";
 import Booking from './features/Booking/index';
 import Coach from './features/Coach/index';
-import MainPage from './layouts/Main';
-import userApi from "./api/userApi";
 import Profile from "./features/Profile";
 import Statistic from "./features/Statistic/index";
 import Ticket from "./features/Ticket";
-import Admin from "./features/Admin";
+import MainPage from './layouts/Main';
 import NotFound from "./layouts/NotFound";
 
 
@@ -49,7 +49,9 @@ function App() {
       try {
         const checkUser = await userApi.isUserExist({ currentUserId })
         // console.log(checkUser)
-        if (checkUser.message === "User is not exist!!") return setIsRegisterRedirect(true);
+        if (checkUser.message === "User is not exist!!") {
+          setIsRegisterRedirect(true)
+        };
         const getUserDetailData = await userApi.getUserData({ currentUserId });
         setUserData(getUserDetailData);
       } catch (error) {
@@ -65,11 +67,12 @@ function App() {
     <div>
       <BrowserRouter>
         <Switch>
-          <Route exact path={"/"} component={MainPage} />
+          <Route exact path={"/"} render={() => <MainPage isRegisterRedirect={isRegisterRedirect}/>} />
           <Route path={"/account"} component={Login} />
-          {isRegisterRedirect && (
+          {/* {isRegisterRedirect && (
             <Redirect to='/account/register' />
-          )}
+          )} */}
+          
           <Route path={"/coach"} component={Coach} />
           <Route path={"/booking"} component={Booking} />
           <Route path={"/user"} component={Profile} />

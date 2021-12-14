@@ -7,13 +7,10 @@ import ticketApi from '../../../../api/ticketApi';
 import { useSelector } from 'react-redux';
 import userApi from '../../../../api/userApi';
 
-function rand() {
-    return Math.round(Math.random() * 20) - 10;
-};
 
 function getModalStyle() {
-    const top = 50 + rand();
-    const left = 50 + rand();
+    const top = 50;
+    const left = 50;
 
     return {
         top: `${top}%`,
@@ -59,7 +56,7 @@ function BookingSeat(props) {
     const handleOpen = () => {
         if (!currentUserId) {
             window.alert("Please login first");
-            history.push('/account/login');
+            history.push('/account');
         };
 
         if (userData.role === "coachOwner") {
