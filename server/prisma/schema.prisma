@@ -48,6 +48,7 @@ model Ticket {
   User      User?    @relation(fields: [userId], references: [id])
   Coach     Coach?   @relation(fields: [coachId], references: [id])
   seat      String[]
+  createdAt DateTime  @default(now())
   price     Int?
   userId    String?
   coachId   Int?

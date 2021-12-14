@@ -32,6 +32,11 @@ const userApi = {
     const url = '/user/get/currentuser';
     return axiosClient.get(url, {params});
   },
+
+  editUserProfile: (data) => {
+    const url = '/user/get/currentuser/edit';
+    return axiosClient.patch(url, data);
+  },
 }
 
 export default userApi;

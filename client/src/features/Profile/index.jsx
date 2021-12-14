@@ -1,6 +1,6 @@
 import React from 'react';
 import { Route, Switch, useRouteMatch } from 'react-router-dom';
-import UserProfile from './pages/index';
+import UserProfile from './pages/userProfile';
 
 function Profile(props) {
    const match = useRouteMatch();

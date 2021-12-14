@@ -1,13 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Formik, Form } from 'formik';
 import { Button, Container, FormControl, Grid, InputLabel, MenuItem, Select, TextField, Typography } from '@material-ui/core';
 import * as Yup from 'yup';
 import { makeStyles } from '@material-ui/core/styles';
-import userApi from '../../../../api/userApi';
 import { useSelector } from 'react-redux';
-import Header from '../../../../layouts/Header';
-import Banner from '../../../../layouts/Banner';
-import Footer from '../../../../layouts/Footer';
+import userApi from '../../../../api/userApi';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -28,54 +25,72 @@ const useStyles = makeStyles((theme) => ({
     submit: {
         margin: theme.spacing(3, 0, 2),
     },
+    paper: {
+        position: 'absolute',
+        width: "auto",
+        backgroundColor: theme.palette.background.paper,
+        border: '2px solid #000',
+        boxShadow: theme.shadows[5],
+        padding: theme.spacing(2, 4, 3),
+      },
 }));
 
-function Register() {
-    const currentUserId = useSelector(state => state.user.current.id);
-    const classes = useStyles();
-    const currentUser = JSON.parse(localStorage.getItem('user'));
+function getModalStyle() {
+    const top = 50;
+    const left = 50;
 
-    const addUser = async (user) => {
+    return {
+        top: `${top}%`,
+        left: `${left}%`,
+        transform: `translate(-${top}%, -${left}%)`,
+    };
+};
+
+function EditProfile(props) {
+    const {user, handleClose, updateProfile} = props;
+    const classes = useStyles();
+    const [modalStyle] = useState(getModalStyle);
+    const currentUserId = useSelector(state => state.user.current.id);
+
+    const editUserProfile = async (formData) => {
         try {
-            const response = await userApi.addNewUser({ ...user, currentUserId: currentUserId });
+            const response = await userApi.editUserProfile({...formData, currentUserId});
+            handleClose();
+            updateProfile(response);
             console.log(response);
-            window.location = "/coach"
         } catch (error) {
             console.log(error)
         }
     };
 
     const initialValues = {
-        username: '',
-        gender: '',
-        age: '',
-        email: currentUser.email || "",
-        phonenumber: currentUser.phoneNumber || "",
+        username: user.username || "",
+        gender: user.gender || "",
+        age: user.age || "",
+        email: user.email || "",
+        phonenumber: user.phonenumber || "",
     };
 
-    const registerSchema = Yup.object().shape({
+    const profilerSchema = Yup.object().shape({
         username: Yup.string()
             .min(2, 'Too Short!')
             .max(50, 'Too Long!')
             .required('Username is required'),
         gender: Yup.string().required('Gender is required'),
         age: Yup.string().required('Age is required'),
-        email: Yup.string().email().required("email is required"),
-        phonenumber: Yup.string().required('Phonenumber is required')
     });
+
     return (
-        <div>
+        <div style={modalStyle} className={classes.paper}>
             <Container maxWidth="lg">
-                <Header />
-                <Banner />
                 <Typography component="h1" variant="h5">
-                    Input User Information
+                    Edit User Profile
                 </Typography>
                 <Container maxWidth="xs">
                     <Formik
                         initialValues={initialValues}
-                        validationSchema={registerSchema}
-                        onSubmit={addUser}
+                        validationSchema={profilerSchema}
+                        onSubmit={editUserProfile}
                     >
                         {({ errors, touched, values, handleChange, handleSubmit, handleBlur }) => (
                             <Form className={classes.root}>
@@ -129,7 +144,7 @@ function Register() {
                                             id="email"
                                             label="Email"
                                             name="email"
-                                            disabled={currentUser.email ? true : false}
+                                            disabled={user.email ? true : false}
                                             value={values.email}
                                             helpertext={errors.email}
                                             variant="outlined"
@@ -143,7 +158,7 @@ function Register() {
                                             id="phonenumber"
                                             label="Phonenumber"
                                             name="phonenumber"
-                                            disabled={currentUser.phoneNumber ? true : false}
+                                            disabled={user.phonenumber ? true : false}
                                             value={values.phonenumber}
                                             helpertext={errors.phonenumber}
                                             variant="outlined"
@@ -164,10 +179,9 @@ function Register() {
                         )}
                     </Formik>
                 </Container>
-                <Footer />
             </Container>
         </div>
     );
 }
 
-export default Register;
+export default EditProfile;

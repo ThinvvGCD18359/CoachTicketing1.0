@@ -1,18 +1,13 @@
-import { Container } from '@material-ui/core';
-import Paper from '@material-ui/core/Paper';
+import { Typography } from '@material-ui/core';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import coachApi from '../../../../api/coachApi';
-import Banner from '../../../../layouts/Banner';
-import Footer from '../../../../layouts/Footer';
-import Header from '../../../../layouts/Header';
-import Coach from '../../components/CoachTable';
+import Coach from './coachTable';
 
 
 export default function CoachTable() {
@@ -49,10 +44,8 @@ export default function CoachTable() {
   };
 
   return (
-    <Container maxWidth="lg">
-      <Header />
-      <Banner />
-      <TableContainer component={Paper}>
+    <React.Fragment>
+      <Typography component="h2" variant="h6" color="primary" gutterBottom>My Coaches</Typography>
         <Table aria-label="collapsible table">
           <TableHead>
             <TableRow>
@@ -69,8 +62,6 @@ export default function CoachTable() {
             ))}
           </TableBody>
         </Table>
-      </TableContainer>
-      <Footer />
-    </Container>
+    </React.Fragment>
   );
 }

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Route, Switch, useRouteMatch } from 'react-router-dom';
-import StatisticPage from './pages';
+import DetailStatistic from './pages/DetailStatistic';
+import StatisticPage from './pages/StatisticPage';
 
 function Statistic(props) {
    const match = useRouteMatch();
@@ -8,6 +9,7 @@ function Statistic(props) {
    return (
       <Switch>
          <Route exact path={match.url} component={StatisticPage} />
+         <Route path={`${match.url}/detail`} component={DetailStatistic} />
       </Switch>
    );
 }

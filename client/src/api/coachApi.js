@@ -40,6 +40,14 @@ const coachApi = {
    getStatistic: () => {
       const url = '/coach/statistic/route/all';
       return axiosClient.get(url);
+   },
+   getBalanceStatistic: () => {
+      const url = '/coach/statistic/balance';
+      return axiosClient.get(url);
+   },
+   getBalanceDetail: () => {
+      const url = '/coach/statistic/balance/detail';
+      return axiosClient.get(url);
    }
 };
 

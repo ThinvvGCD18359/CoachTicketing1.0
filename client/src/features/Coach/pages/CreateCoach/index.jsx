@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import coachApi from '../../../../api/coachApi';
 import { Formik, Form } from 'formik';
-import { Button, Container, TextField } from '@material-ui/core';
+import { Button, Container, Grid, TextField, Typography } from '@material-ui/core';
 import * as Yup from 'yup';
 import { makeStyles } from '@material-ui/core/styles';
 import { useSelector } from 'react-redux';
@@ -19,9 +19,16 @@ const useStyles = makeStyles((theme) => ({
     root: {
         '& .MuiTextField-root': {
             margin: theme.spacing(1),
-            width: 200,
+            width: "100%",
             display: 'flex',
         },
+        marginTop: theme.spacing(5),
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+    },
+    submit: {
+        margin: theme.spacing(3, 0, 2),
     },
 }));
 
@@ -60,58 +67,70 @@ function CreateCoach(props) {
         <Container maxWidth="lg">
             <Header />
             <Banner />
-            <Formik
-                initialValues={initialValues}
-                validationSchema={coachSchema}
-                onSubmit={(values) => addCoach(values)}
-            >
-                {({ errors, touched, values, handleChange, handleSubmit, handleBlur }) => (
-                    <Form className={classes.root}>
-                        <TextField
-                            error={(errors.name && touched.name) ? true : false}
-                            id="name"
-                            label="Name"
-                            name="name"
-                            value={values.name}
-                            helperText={errors.name}
-                            variant="outlined"
-                            onChange={handleChange}
-                            onBlur={handleBlur}
-                        />
-                        <TextField
-                            fullWidth={true}
-                            error={(errors.phonenumber && touched.phonenumber) ? true : false}
-                            id="phonenumber"
-                            label="Phone Number"
-                            name="phonenumber"
-                            value={values.phonenumber}
-                            helperText={errors.phonenumber}
-                            variant="outlined"
-                            onChange={handleChange}
-                            onBlur={handleBlur}
-                        />
-                        <TextField
-                            error={(errors.plates && touched.plates) ? true : false}
-                            id="plates"
-                            label="plates"
-                            name="plates"
-                            value={values.plates}
-                            helperText={errors.plates}
-                            variant="outlined"
-                            onChange={handleChange}
-                            onBlur={handleBlur}
-                        />
-
-                        <Button
-                            variant="contained"
-                            color="primary"
-                            onClick={handleSubmit}
-                        >
-                            Submit
-                        </Button>
-                    </Form>
-                )}
-            </Formik>
+            <Typography component="h1" variant="h5">
+                Create Coach
+            </Typography>
+            <Container maxWidth="xs">
+                <Formik
+                    initialValues={initialValues}
+                    validationSchema={coachSchema}
+                    onSubmit={(values) => addCoach(values)}
+                >
+                    {({ errors, touched, values, handleChange, handleSubmit, handleBlur }) => (
+                        <Form className={classes.root}>
+                            <Grid container spacing={1}>
+                                <Grid item xs={12}>
+                                    <TextField
+                                        error={(errors.name && touched.name) ? true : false}
+                                        id="name"
+                                        label="Name"
+                                        name="name"
+                                        value={values.name}
+                                        helperText={errors.name}
+                                        variant="outlined"
+                                        onChange={handleChange}
+                                        onBlur={handleBlur}
+                                    />
+                                </Grid>
+                                <Grid item xs={12}>
+                                    <TextField
+                                        error={(errors.phonenumber && touched.phonenumber) ? true : false}
+                                        id="phonenumber"
+                                        label="Phone Number"
+                                        name="phonenumber"
+                                        value={values.phonenumber}
+                                        helperText={errors.phonenumber}
+                                        variant="outlined"
+                                        onChange={handleChange}
+                                        onBlur={handleBlur}
+                                    />
+                                </Grid>
+                                <Grid item xs={12}>
+                                    <TextField
+                                        error={(errors.plates && touched.plates) ? true : false}
+                                        id="plates"
+                                        label="Plates"
+                                        name="plates"
+                                        value={values.plates}
+                                        helperText={errors.plates}
+                                        variant="outlined"
+                                        onChange={handleChange}
+                                        onBlur={handleBlur}
+                                    />
+                                </Grid>
+                            </Grid>
+                            <Button
+                                variant="contained"
+                                color="primary"
+                                className={classes.submit}
+                                onClick={handleSubmit}
+                            >
+                                Submit
+                            </Button>
+                        </Form>
+                    )}
+                </Formik>
+            </Container>
             <Footer />
         </Container>
     );

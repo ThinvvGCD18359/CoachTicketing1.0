@@ -124,7 +124,7 @@ export default function Header() {
           </Typography>
           {loggedUser ?
             (
-              <>
+              <div>
                 <IconButton
                   aria-label="account of current user"
                   aria-controls="menu-appbar"
@@ -156,28 +156,28 @@ export default function Header() {
                   </MenuItem>
                   {userData.role === "user"
                     ? (
-                      <>
+                      <div>
                         <MenuItem >
                           <Link className="Link" to="/ticket/myticket">
                             My Ticket
                           </Link>
                         </MenuItem>
-                      </>
+                      </div>
                     ) : (
-                      <></>
+                      <div></div>
                     )}
 
                   <MenuItem onClick={signOut}>Sign Out</MenuItem>
                 </Menu>
-              </>
+              </div>
             ) : (
-              <>
-                <Link className="Link" to="/account/login">
+              <div>
+                <Link className="Link" to="/account">
                   <Button size="large">
                     Sign In
                   </Button>
                 </Link>
-              </>
+              </div>
             )}
         </Toolbar>
 
@@ -204,33 +204,27 @@ export default function Header() {
             </Link>
             <Divider />
             {userData.role === "coachOwner" ? (
-                <>
+                <div>
                   <Link className="Link" to="/coach/create/coach">
                     <IconButton>
                       <DirectionsBusIcon />Create new Coach
                     </IconButton>
                   </Link>
                   <Divider />
-                  <Link className="Link" to="/coach/mycoach">
-                    <IconButton>
-                      <AirportShuttleIcon />My Coaches
-                    </IconButton>
-                  </Link>
-                  <Divider />
                   <Link className="Link" to="/statistic">
                     <IconButton>
-                      <EqualizerIcon />Statistics
+                      <EqualizerIcon />My Coaches
                     </IconButton>
                   </Link>
-                </>
+                </div>
               ) : (userData.role === "admin" && (
-                <>
+                <div>
                   <Link className="Link" to="/admin">
                     <IconButton>
                       <EqualizerIcon />User Accounts
                     </IconButton>
                   </Link>
-                </>
+                </div>
               ))}
           </List>
         </Drawer>

@@ -14,6 +14,8 @@ import Profile from "./features/Profile";
 import Statistic from "./features/Statistic/index";
 import Ticket from "./features/Ticket";
 import Admin from "./features/Admin";
+import NotFound from "./layouts/NotFound";
+
 
 function App() {
   const dispatch = useDispatch();
@@ -31,7 +33,7 @@ function App() {
       try {
         const actionResult = await dispatch(getUser());
         const currentUser = unwrapResult(actionResult);
-        console.log('Logged in user: ', currentUser);
+        // console.log('Logged in user: ', currentUser);
         localStorage.setItem('user', JSON.stringify(currentUser));
       } catch (error) {
         console.log('Failed to login ', error.message);
@@ -46,7 +48,7 @@ function App() {
     const checkUserExist = async () => {
       try {
         const checkUser = await userApi.isUserExist({ currentUserId })
-        console.log(checkUser)
+        // console.log(checkUser)
         if (checkUser.message === "User is not exist!!") return setIsRegisterRedirect(true);
         const getUserDetailData = await userApi.getUserData({ currentUserId });
         setUserData(getUserDetailData);
@@ -71,6 +73,7 @@ function App() {
           <Route path={"/coach"} component={Coach} />
           <Route path={"/booking"} component={Booking} />
           <Route path={"/user"} component={Profile} />
+          <Route path={"/404"} component={NotFound} />
           {userData.role === "user"
             ? (
               <>
@@ -81,8 +84,11 @@ function App() {
                 <Route path={"/statistic"} component={Statistic} />
               </>
             ) : (userData.role === "admin" && (
-              <Route exact path={"/admin"} component={Admin} />
+              <>
+                <Route exact path={"/admin"} component={Admin} />
+              </>
             )))}
+            <Redirect to="/404" />
         </Switch>
       </BrowserRouter>
     </div>

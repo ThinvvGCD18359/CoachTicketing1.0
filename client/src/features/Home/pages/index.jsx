@@ -73,7 +73,6 @@ function HomePage(props) {
     useEffect(() => {
         async function getPopular() {
             const response = await coachApi.getPopularCoaches();
-            console.log(response);
             setPopular(response);
         }
         getPopular();

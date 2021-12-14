@@ -49,6 +49,24 @@ class UserController {
             return next(error);
         }
     };
+
+    editUserProfile = async (req, res, next) => {
+        try {
+            const editProfile = await prisma.user.update({
+                where: {
+                    id: req.body.currentUserId,
+                },
+                data: {
+                    username: req.body.username,
+                    gender: req.body.gender,
+                    age: parseInt(req.body.age),
+                },
+            });
+            res.status(200).json(editProfile);
+        } catch (error) {
+            return next(error)
+        }
+    }
 }
 
 module.exports = new UserController();

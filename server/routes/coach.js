@@ -3,6 +3,8 @@ const router = express.Router();
 const coachController = require('../controllers/coachController');
 
 router.get('/statistic/route/all', coachController.getRouteStatistic);
+router.get('/statistic/balance/detail', coachController.getBalanceDetail);
+router.get('/statistic/balance', coachController.getBalanceStatistic);
 router.post('/create/route', coachController.createNewRoute);
 router.post('/create/coach', coachController.createNewCoach);
 router.get('/search', coachController.searchCoaches);

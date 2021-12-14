@@ -1,6 +1,6 @@
 import React from 'react';
 import { Formik, Form } from 'formik';
-import { Button, Container, TextField } from '@material-ui/core';
+import { Button, Container, Grid, TextField, Typography } from '@material-ui/core';
 import * as Yup from 'yup';
 import { makeStyles } from '@material-ui/core/styles';
 import coachApi from '../../../../api/coachApi';
@@ -13,9 +13,16 @@ const useStyles = makeStyles((theme) => ({
     root: {
         '& .MuiTextField-root': {
             margin: theme.spacing(1),
-            width: 200,
+            width: "100%",
             display: 'flex',
         },
+        marginTop: theme.spacing(5),
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+    },
+    submit: {
+        margin: theme.spacing(3, 0, 2),
     },
 }));
 
@@ -57,66 +64,88 @@ function CreateRoute(props) {
         <Container maxWidth="lg">
             <Header />
             <Banner />
-            <Formik
-                initialValues={initialValues}
-                validationSchema={routeSchema}
-                onSubmit={(values) => addRoute(values)}
-            >
-                {({ errors, touched, values, handleChange, handleSubmit, handleBlur }) => (
-                    <Form className={classes.root}>
-                        <TextField
-                            error={(errors.starting && touched.starting) ? true : false}
-                            id="starting"
-                            label="Starting"
-                            name="starting"
-                            value={values.starting}
-                            helpertext={errors.starting}
-                            variant="outlined"
-                            onChange={handleChange}
-                            onBlur={handleBlur}
-                        />
-                        <TextField
-                            error={(errors.destination && touched.destination) ? true : false}
-                            id="destination"
-                            label="Destination"
-                            name="destination"
-                            value={values.destination}
-                            helpertext={errors.destination}
-                            variant="outlined"
-                            onChange={handleChange}
-                            onBlur={handleBlur}
-                        />
-                        <TextField
-                            error={(errors.departure && touched.departure) ? true : false}
-                            id="departure"
-                            label="Departure"
-                            name="departure"
-                            type="datetime-local"
-                            InputLabelProps={{
-                                shrink: true,
-                            }}
-                            value={values.departure}
-                            helpertext={errors.departure}
-                            variant="outlined"
-                            onChange={handleChange}
-                            onBlur={handleBlur}
-                        />
-                        <TextField
-                            error={(errors.price && touched.price) ? true : false}
-                            id="price"
-                            label="Price"
-                            name="price"
-                            value={values.price}
-                            helpertext={errors.price}
-                            variant="outlined"
-                            onChange={handleChange}
-                            onBlur={handleBlur}
-                        />
+            <Typography component="h1" variant="h5">
+                Create Route
+            </Typography>
+            <Container maxWidth="xs">
+                <Formik
+                    initialValues={initialValues}
+                    validationSchema={routeSchema}
+                    onSubmit={(values) => addRoute(values)}
+                >
+                    {({ errors, touched, values, handleChange, handleSubmit, handleBlur }) => (
+                        <Form className={classes.root}>
+                            <Grid container spacing={1}>
+                                <Grid item xs={12}>
+                                    <TextField
+                                        error={(errors.starting && touched.starting) ? true : false}
+                                        id="starting"
+                                        label="Starting"
+                                        name="starting"
+                                        value={values.starting}
+                                        helpertext={errors.starting}
+                                        variant="outlined"
+                                        onChange={handleChange}
+                                        onBlur={handleBlur}
+                                    />
+                                </Grid>
+                                <Grid item xs={12}>
+                                    <TextField
+                                        error={(errors.destination && touched.destination) ? true : false}
+                                        id="destination"
+                                        label="Destination"
+                                        name="destination"
+                                        value={values.destination}
+                                        helpertext={errors.destination}
+                                        variant="outlined"
+                                        onChange={handleChange}
+                                        onBlur={handleBlur}
+                                    />
+                                </Grid>
+                                <Grid item xs={12}>
+                                    <TextField
+                                        error={(errors.departure && touched.departure) ? true : false}
+                                        id="departure"
+                                        label="Departure"
+                                        name="departure"
+                                        type="datetime-local"
+                                        InputLabelProps={{
+                                            shrink: true,
+                                        }}
+                                        value={values.departure}
+                                        helpertext={errors.departure}
+                                        variant="outlined"
+                                        onChange={handleChange}
+                                        onBlur={handleBlur}
+                                    />
+                                </Grid>
+                                <Grid item xs={12}>
+                                    <TextField
+                                        error={(errors.price && touched.price) ? true : false}
+                                        id="price"
+                                        label="Price"
+                                        name="price"
+                                        value={values.price}
+                                        helpertext={errors.price}
+                                        variant="outlined"
+                                        onChange={handleChange}
+                                        onBlur={handleBlur}
+                                    />
+                                </Grid>
+                            </Grid>
 
-                        <Button variant="contained" color="primary" onClick={handleSubmit}>Submit</Button>
-                    </Form>
-                )}
-            </Formik>
+                            <Button
+                                variant="contained"
+                                color="primary"
+                                className={classes.submit}
+                                onClick={handleSubmit}
+                            >
+                                Submit
+                            </Button>
+                        </Form>
+                    )}
+                </Formik>
+            </Container>
             <Footer />
         </Container>
     );

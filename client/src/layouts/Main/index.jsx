@@ -6,7 +6,7 @@ export default function MainPage() {
     return (
         <React.Fragment>
             <CssBaseline />
-                <HomePage />
+            <HomePage />
         </React.Fragment>
     );
 }

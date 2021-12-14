@@ -7,6 +7,7 @@ import {
     StyleSheet,
     PDFViewer,
 } from "@react-pdf/renderer";
+import moment from 'moment';
 // import busLogo from "../../../../images/buslogo.png";
 // import phoneLogo from "../../../../images/telephone.png";
 
@@ -167,6 +168,7 @@ const styles = StyleSheet.create({
 
 function DetailTicket(props) {
     const { ticket } = props;
+    console.log(ticket)
     return (
         <div className="bookedTickets">
             {Object.keys(ticket).length && (
@@ -174,19 +176,6 @@ function DetailTicket(props) {
                     <Document>
                         <Page pageNumber={1} size="A4" style={styles.page}>
                             <View style={styles.ticketBox}>
-                                {/* <View style={styles.titleBox}>
-                                    <View style={styles.logoBox}>
-                                        <Image src={busLogo} style={styles.logo} />
-                                        <Text style={styles.companyTitle}>CoachTicketing</Text>
-                                    </View>
-                                    <View style={styles.queryBox}>
-                                        <Image src={phoneLogo} style={styles.phoneLogo} />
-                                        <View>
-                                            <Text style={styles.queryTitle}>abcxyz</Text>
-                                            <Text style={styles.queryNumber}>123123</Text>
-                                        </View>
-                                    </View>
-                                </View> */}
                                 <View key={ticket.id} style={styles.passengerInfoBox}>
                                     <View>
                                         <Text style={styles.passengerInfoTextTitle}>
@@ -249,7 +238,7 @@ function DetailTicket(props) {
                                     <View style={styles.busDetailSubBox}>
                                         <Text style={styles.busDetailTextTitle}>Departure Time</Text>
                                         <Text style={styles.busDetailText}>
-                                            {ticket.Coach.Route.departure}
+                                            {moment(ticket.Coach.Route.departure).format('MM-DD-YYYY, HH:mm')}
                                         </Text>
                                     </View>
                                 </View>

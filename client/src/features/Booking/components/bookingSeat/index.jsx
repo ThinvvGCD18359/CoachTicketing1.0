@@ -90,6 +90,7 @@ function BookingSeat(props) {
                 userId: user.id,
                 seat: total,
                 price: totalCost,
+                createdAt: moment().toString(),
             });
             console.log("ticket:", response);
             history.push(`/ticket/detail/${response.id}`);

@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const ticketController = require('../controllers/ticketController');
 
+//router.get('/balance', ticketController.getBalance);
 router.get('/detail', ticketController.getTicketById);
 router.get('/myticket', ticketController.getUserTicket);
 router.post('/add', ticketController.addNewTicket);

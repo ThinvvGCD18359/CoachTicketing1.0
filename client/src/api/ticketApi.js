@@ -16,6 +16,10 @@ const ticketApi = {
    getDetailTicket: (params) => {
       const url = '/ticket/detail';
       return axiosClient.get(url, {params});
+   },
+   getBalance: (params) => {
+      const url = '/balance';
+      return axiosClient.get(url, {params});
    }
 };
 

@@ -19,7 +19,7 @@ class CoachController {
       try {
          const getCoaches = await prisma.coach.findMany({
             include: {
-               Route: true
+               Route: true,
             },
 
             where: {
@@ -209,6 +209,62 @@ class CoachController {
             return array;
          }, []);
          return res.json(calculateRouteByDate);
+      } catch (error) {
+         return next(error)
+      };
+   };
+   getBalanceStatistic = async (req, res, next) => {
+      try {
+         const getAllTicket = await prisma.coach.findMany({
+            where: {
+               userId: req.query.currentUserId,
+            },
+            include: {
+               Route: true,
+               Ticket: true,
+            },
+         });
+         const getBalanceByDate = getAllTicket.reduce((total, item) => {
+            const totalPriceInTicket = item.Ticket.reduce((ticketTotal, ticket) => {
+               return ticketTotal += ticket.price
+            }, 0)
+            return total += totalPriceInTicket;
+         }, 0);
+         
+         res.status(200).json(getBalanceByDate);
+      } catch (error) {
+         return next(error)
+      };
+   };
+   getBalanceDetail = async (req, res, next) => {
+      try {
+         const getAllTicket = await prisma.coach.findMany({
+          where: {
+              userId: req.query.currentUserId,
+           },
+           include: {
+              Route: true,
+              Ticket: true,
+           },
+         });
+         const getDetailBalance = getAllTicket.reduce((array, item) => {
+            const detailBalance = moment(item.Ticket[0].createdAt).format("YYYY-MM-DD");
+            const totalPriceInTicket = item.Ticket.reduce((ticketTotal, ticket) => {
+               return ticketTotal += ticket.price
+            }, 0)
+            if (array.some(a => a.ticketDate === detailBalance)) {
+               const findIndex = array.findIndex(i => i.ticketDate === detailBalance);
+               array[findIndex].total += totalPriceInTicket;
+               array[findIndex].ticketDate = detailBalance;
+            } else {
+               array.push({
+                  total: totalPriceInTicket,
+                  ticketDate: detailBalance,
+               });
+            }
+            return array;
+         }, []);
+         return res.json(getDetailBalance);
       } catch (error) {
          return next(error)
       };

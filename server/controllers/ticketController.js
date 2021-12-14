@@ -32,6 +32,7 @@ class TicketController {
                     price: parseInt(req.body.price),
                     userId: req.body.userId,
                     coachId: parseInt(req.body.coachId),
+                    createdAt: new Date(req.body.createdAt),
                 },
             });
             res.status(200).json(addTicket);
@@ -78,7 +79,7 @@ class TicketController {
         } catch (error) {
             return next(error);
         }
-    }
+    };
 }
 
 module.exports = new TicketController();
